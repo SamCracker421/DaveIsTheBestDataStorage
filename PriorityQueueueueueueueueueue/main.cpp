@@ -48,7 +48,7 @@ T PriorityQueue<T>::remove(){
     values[place]=values[size()-1];
     values.erase(values.end()-1);
     sizzle-=1;
-    while(place<size()-2){
+    while(place<size()-1){
         int LeftIndex=(place*2)+1;
         int RightIndex=(place*2)+2;
         if(LeftIndex<=size()-1 && RightIndex<=size()-1){
@@ -92,6 +92,7 @@ T PriorityQueue<T>::remove(){
         else if(RightIndex>=size()-1 && LeftIndex>=size()-1){
             break;
         }
+
     }
     return potato;
 }
