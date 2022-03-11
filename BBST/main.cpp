@@ -115,23 +115,25 @@ void rotateright(Node<T>*& vault){
 template <typename T>
 void Node<T>::balance(Node<T>*& vault){
     //right heavy
+    //right-left
+    //get balance factor of left and determine if its left or right instead of nullptr if poss, left left, if neg, left right.
     if(getBalanceFactor(vault)>1){
-        if(vault->right!=nullptr && vault->right->right!=nullptr){
-            rotateleft(vault);
+        if(getBalanceFactor(vault->right)>1){
+           rotateleft(vault->right);
         }
-        if(vault->right!=nullptr && vault->right->left!=nullptr){
+        else{
             rotateright(vault->right);
             rotateleft(vault);
-        }
+            }
     }
     //left heavy
-    else if(getBalanceFactor(vault)<-1){
-        if(vault->left!=nullptr && vault->left->left!=nullptr){
-            rotateleft(vault);
+    if(getBalanceFactor(vault)<-1){
+        if(getBalanceFactor(vault->left)>1){
+                    rotateleft(vault->left);
+                    rotateright(vault->right);
         }
-        if(vault->left!=nullptr && vault->left->right!=nullptr){
-            rotateleft(vault->left);
-            rotateright(vault);
+        else{
+            rotateright(vault->left);
         }
     }
     if(vault->left!=nullptr){
@@ -282,15 +284,10 @@ bool Node<T>::includes(T cheese){
         return false;
     }
 }
-template <typename T>
-void  Node<T>::remove(T cheese,int& numofnodes){
-    if(value!=cheese){
+//template <typename T>
+//void  Node<T>::remove(T cheese,int& numofnodes){
 
-    }
-    else{
-
-    }
-}
+//}
 
 //Testing
 TEST(BinarySearchTrees,InOrder){
@@ -301,6 +298,7 @@ TEST(BinarySearchTrees,InOrder){
     sum.insert(15);
     ASSERT_EQ(sum.inOrder(),vector<int> ({10,15,17,25}));
 }
+
 TEST(BinarySearchTrees,Preorder){
     BinarySearchTree<int> sum;
     sum.insert(25);
@@ -357,14 +355,17 @@ TEST(BinarySearchTrees,BalanceFactor){
 }
 TEST(BinarySearchTrees,RotateRight){
     BinarySearchTree<int> sum;
-    sum.insert(20);
-    sum.insert(30);
+    sum.insert(13);
+    sum.insert(10);
     sum.insert(15);
-    sum.insert(25);
-    sum.insert(45);
-    sum.insert(40);
+    sum.insert(5);
+    sum.insert(11);
+    sum.insert(16);
+    sum.insert(4);
+    sum.insert(6);
+    sum.insert(7);
     sum.balancetree();
-    ASSERT_EQ(sum.inOrder(), vector<int> ({15,20,25,30,40,45}));
+    ASSERT_EQ(sum.preOrder(), vector<int> ({13,6,5,4,10,7,11,15,16}));
 }
 
 TEST(BinarySearchTrees,Includes){
