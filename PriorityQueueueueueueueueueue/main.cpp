@@ -8,7 +8,7 @@
 using namespace std;
 template <typename T>
 class PriorityQueue{
-    int sizzle=0;
+    int sizzle=1;
     vector<T> values;
     public:
    void insert(T value);
@@ -18,7 +18,7 @@ class PriorityQueue{
 };
 template <typename T>
 bool PriorityQueue<T>::isEmpty(){
-                        if(size()>=1){
+                        if(size()>1){
                             return false;
                         }
                         else{
@@ -48,10 +48,10 @@ T PriorityQueue<T>::remove(){
     values[place]=values[size()-1];
     values.erase(values.end()-1);
     sizzle-=1;
-    while(place<size()-1){
+    while(place<size()-2){
         int LeftIndex=(place*2)+1;
         int RightIndex=(place*2)+2;
-        if(LeftIndex<=size()-1 && RightIndex<=size()-1){
+        if(LeftIndex<=size()-2 && RightIndex<=size()-2){
             if(values[LeftIndex]>values[RightIndex]){
                 if(values[LeftIndex]>values[place]){
                     swap(values[LeftIndex],values[place]);
@@ -71,7 +71,7 @@ T PriorityQueue<T>::remove(){
                 }
             }
         }
-        else if(LeftIndex<=size()-1 && RightIndex>size()-1){
+        else if(LeftIndex<=size()-2 && RightIndex>size()-2){
                 if(values[LeftIndex]>values[place]){
                     swap(values[LeftIndex],values[place]);
                     place=LeftIndex;
@@ -80,7 +80,7 @@ T PriorityQueue<T>::remove(){
                     break;
                 }
         }
-        else if(LeftIndex>size()-1 && RightIndex<=size()-1){
+        else if(LeftIndex>size()-2 && RightIndex<=size()-2){
             if(values[RightIndex]>values[place]){
                 swap(values[RightIndex],values[place]);
                 place=LeftIndex;
@@ -89,7 +89,7 @@ T PriorityQueue<T>::remove(){
                 break;
             }
         }
-        else if(RightIndex>=size()-1 && LeftIndex>=size()-1){
+        else if(RightIndex>=size()-2 && LeftIndex>=size()-2){
             break;
         }
     }
