@@ -11,6 +11,8 @@ void mergeSort(vector<T>& values){
     vector<T> left;
     vector<T> right;
     vector<T> finale;
+    int r=0;
+    int l=0;
     int split=values.size()/2;
     if(values.size()>2){
         for(int x=0; x<split;x++){
@@ -22,30 +24,32 @@ void mergeSort(vector<T>& values){
         mergeSort(left);
         mergeSort(right);
         while(true){
-            if(right.size()!=0 || left.size()!=0){
-            if(left[0]<right[0]){
-                finale.push_back(left[0]);
-                left.erase(left.begin());
+            if(r<right.size()){
+            if(l<left.size()){
+                if(left[l]<right[r]){
+                finale.push_back(left[l]);
+                l++;
+                }
+                else{
+                    finale.push_back(right[r]);
+                    r++;
+                }
             }
             else{
-                finale.push_back(right[0]);
-                right.erase(right.begin());
+                finale.push_back(right[r]);
+                r++;
             }
             }
-            if(right.size()==0 && left.size()>0){
-                for(int x =0; x<left.size();x++){
-                    finale.push_back(left[x]);
+            else {
+                if(l<left.size()){
+                    finale.push_back(left[l]);
+                    l++;
                 }
-            }
-            else if(right.size()>0 && left.size()==0){
-                for(int x=0;x<right.size();x++){
-                    finale.push_back(right[x]);
+                else{
+                    values=finale;
+                    break;
                 }
-            }
-            if(right.size()==0 && left.size()==0){
-                values=finale;
-                break;
-            }
+}
         }
     }
     else if(values.size()==2){
@@ -55,9 +59,9 @@ void mergeSort(vector<T>& values){
     }
 }
 TEST(MergeSort,doesitsort){
-    vector<int> cheese={};
+    vector<int> cheese={1,2,3,6,3,6};
     mergeSort(cheese);
-    ASSERT_EQ(cheese,vector<int> ({}));
+    ASSERT_EQ(cheese,vector<int> ({1,2,3,3,6,6}));
 }
 
 
