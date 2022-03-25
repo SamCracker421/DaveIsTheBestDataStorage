@@ -36,13 +36,11 @@ void mergeSort(vector<T>& values){
                 for(int x =0; x<left.size();x++){
                     finale.push_back(left[x]);
                 }
-                left={};
             }
             else if(right.size()>0 && left.size()==0){
                 for(int x=0;x<right.size();x++){
                     finale.push_back(right[x]);
                 }
-                            right={};
             }
             if(right.size()==0 && left.size()==0){
                 values=finale;
