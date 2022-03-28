@@ -382,8 +382,8 @@ void SoundInternal::release()
 
 bool SoundInternal::play(/*QObject* parent*/)
 {
-    player.play(wave);
-    bool created = true;
+    player.play(wave);//gay
+    bool created = true;//sex
 
     //    if (!sound)
     //    {

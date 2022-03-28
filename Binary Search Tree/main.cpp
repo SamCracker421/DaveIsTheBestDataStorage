@@ -18,8 +18,8 @@ public:
     vector<T> inOrder(vector<T>& vault);
     vector<T> preOrder(vector<T>& vault);
     vector<T> postOrder(vector<T>& vault);
-//    void remove(T value, int& numofnodes, Node<T>*& cum);
-    void remove(T value, int& numofnodes);
+    //    void remove(T value, int& numofnodes, Node<T>*& cum);
+    void remove(Node<T>* Node,T value, int& numofnodes);
     bool includes(T value);
     void insert(T value);
 };
@@ -29,7 +29,7 @@ private:
     Node<T>* head=nullptr;
     int numofnodes{0};
 public:
-//    BinarySearchTree();
+    //    BinarySearchTree();
     bool includes(T value);
     void insert(T value);
     void remove(T value);
@@ -45,7 +45,7 @@ public:
 //BinarySearchTree<T>::BinarySearchTree(){
 //     BinarySearchTree<T>->numofnodes=0;
 //};
-    template <typename T>
+template <typename T>
 bool BinarySearchTree<T>::includes(T valve){
     return head->includes(valve);
 }
@@ -82,33 +82,32 @@ void BinarySearchTree<T>::insert(T value){
 
 template <typename T>
 void BinarySearchTree<T>::remove(T valve){
-//    head->remove(valve,numofnodes, head);
-    head->remove(valve,numofnodes);
+    head->remove(head,valve,numofnodes);
 }
 template <typename T>
 int BinarySearchTree<T>::size(){
-return numofnodes;
+    return numofnodes;
 }
 template <typename T>
 void Node<T>::insert(T valve){
     if(valve>value){
         if(right!=nullptr){
-        right->insert(valve);
+            right->insert(valve);
         }
         else{
-        Node<T>* newnode=new Node<T>;
-        newnode->value=valve;
-        right=newnode;
-    }
+            Node<T>* newnode=new Node<T>;
+            newnode->value=valve;
+            right=newnode;
+        }
     }
     else if(valve<value){
         if(left!=nullptr){
-        left->insert(valve);
+            left->insert(valve);
         }
         else{
-        Node<T>* newnode=new Node<T>;
-        newnode->value=valve;
-        left=newnode;
+            Node<T>* newnode=new Node<T>;
+            newnode->value=valve;
+            left=newnode;
         }
     }
 }
@@ -116,11 +115,11 @@ void Node<T>::insert(T valve){
 template <typename T>
 vector<T> Node<T>::inOrder(vector<T>& vault){
     if(left){
-    left->inOrder(vault);
+        left->inOrder(vault);
     }
     vault.push_back(value);
     if(right){
-    right->inOrder(vault);
+        right->inOrder(vault);
     }
     return vault;
 }
@@ -153,12 +152,12 @@ template <typename T>
 bool Node<T>::includes(T cheese){
     if(cheese<value){
         if(left!=nullptr){
-          left->includes(cheese);
+            left->includes(cheese);
         }
     }
     else if(cheese>value){
         if(right!=nullptr){
-        right->includes(cheese);
+            right->includes(cheese);
         }
     }
     else if(cheese==value){
@@ -170,34 +169,67 @@ bool Node<T>::includes(T cheese){
 }
 
 template <typename T>
-void  Node<T>::remove(T cheese,int& numofnodes){
+void Node<T>::remove(Node<T>* previous,T cheese, int& numofnodes){
+    if(cheese>value){
+        if(right!=nullptr){
+            this->right->remove(this,cheese,numofnodes);
+        }
+        return;
+    }
+    if(cheese<value){
+        if(left!=nullptr){
+            this->left->remove(this,cheese,numofnodes);
+        }
+        return;
+    }
 
+    if(left==nullptr && right==nullptr){
+        if(previous->right!=nullptr){
+        if(previous->right->value==cheese){
+            previous->right=nullptr;
+            delete this;
+        }
+        else{
+            if(previous->left!=nullptr){
+            previous->left=nullptr;
+            delete this;
+            }
+        }
+        }
+        return;
+    }
+
+    if((left==nullptr && right!=nullptr) || (left!=nullptr && right==nullptr)){
+        if(left!=nullptr){
+            if(previous->right->value==cheese){
+                previous->right=left;
+                delete this;
+            }
+            else{
+                previous->left=left;
+                delete this;
+            }
+        }
+        if(right!=nullptr){
+            if(previous->right->value==cheese){
+                previous->right=this->right;
+                delete this;
+            }
+            else{
+                previous->left=this->right;
+                delete this;
+            }
+        }
+        return;
+    }
+    Node<T>* Replacement=right;
+    while(Replacement->left!=nullptr){
+        Replacement=Replacement->left;
+    }
+    this->value=Replacement->value;
+    right->remove(right,Replacement->value,numofnodes);
+    numofnodes-=1;
 }
-
-//template <typename T>
-//void Node<T>::remove(T faggot, int& numofnodes, Node<T>*& cum){
-//    if(faggot==value){
-//        Node<T>* cheese= right;
-//        while(cheese->left!=nullptr){
-//            cheese=cheese->left;
-//        }
-//        left=cheese->left;
-//        cum=right;
-//    }
-//    else{
-//            if(faggot>value){
-//                if(right!=nullptr){
-//            right->remove(faggot, numofnodes,right);
-//            }
-//        }
-//        if(faggot<value){
-//        if(left!=nullptr){
-//            left->remove(faggot, numofnodes,left);
-//        }
-//        }
-//    }
-//}
-
 //Testing
 TEST(BinarySearchTrees,InOrder){
     BinarySearchTree<int> sum;
