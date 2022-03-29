@@ -169,7 +169,7 @@ void rulesOLife(vector<vector<Civilization>>& columns){
 }
 int main()
 {
-
+    srand(time(NULL));
     vector<Civilization> row;
     vector<vector<Civilization>> column;
     for(int y=0; y<100;y++){
@@ -194,6 +194,17 @@ int main()
             cheese.y=floor(cheese.y/10);
             column[cheese.y][cheese.x].alive=true;
         }
+        if(g.isKeyPressed(70)){
+            for(int x=0;x<100;x++){
+            Vec2d cheese={rand()%100,rand()%100};
+            column[cheese.x][cheese.y].alive=true;
+            }
+        }
+            if(g.isKeyPressed(65)==true){
+                for(int x=0; x<1000;x++){
+                rulesOLife(column);
+                }
+    }
     }
 }
 

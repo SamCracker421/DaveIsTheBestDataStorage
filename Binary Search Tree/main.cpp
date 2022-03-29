@@ -47,24 +47,44 @@ public:
 //};
 template <typename T>
 bool BinarySearchTree<T>::includes(T valve){
+    if(head){
     return head->includes(valve);
+    }
+    else{
+        return false;
+    }
 }
 
 template <typename T>
 vector<T> BinarySearchTree<T>::inOrder(){
+    if(head){
     vector<T> DespicableMe;
     return head->inOrder(DespicableMe);
+    }
+    else{
+        return vector<int> ({});
+    }
 }
 
 template <typename T>
 vector<T> BinarySearchTree<T>::preOrder(){
+    if(head){
     vector<T> DespicableMe;
     return head->preOrder(DespicableMe);
+    }
+    else{
+        return vector<int> ({});
+    }
 }
 template <typename T>
 vector<T> BinarySearchTree<T>::postOrder(){
+    if(head){
     vector<T> cheddar;
     return head->postOrder(cheddar);
+    }
+    else{
+        return vector<int> ({});
+    }
 }
 template <typename T>
 void BinarySearchTree<T>::insert(T value){
@@ -82,7 +102,33 @@ void BinarySearchTree<T>::insert(T value){
 
 template <typename T>
 void BinarySearchTree<T>::remove(T valve){
+    if(head){
+    if(valve!=head->value){
     head->remove(head,valve,numofnodes);
+    }
+    else{
+    if(head->left==nullptr && head->right==nullptr){
+        delete head;
+        head=nullptr;
+    }
+    else if((head->left!=nullptr && head->right==nullptr)||(head->right!=nullptr && head->left==nullptr)){
+    if(head->left!=nullptr){
+        head=head->left;
+    }
+    else{
+        head=head->right;
+    }
+    }
+    else{
+        Node<T>* replacement=head->right;
+        while(replacement->left!=nullptr){
+                replacement=replacement->left;
+        }
+        head->value=replacement->value;
+        head->right->remove(head,replacement->value,numofnodes);
+    }
+    }
+    }
 }
 template <typename T>
 int BinarySearchTree<T>::size(){
@@ -227,7 +273,7 @@ void Node<T>::remove(Node<T>* previous,T cheese, int& numofnodes){
         Replacement=Replacement->left;
     }
     this->value=Replacement->value;
-    right->remove(right,Replacement->value,numofnodes);
+    Replacement->right->remove(Replacement,Replacement->value,numofnodes);
     numofnodes-=1;
 }
 //Testing
@@ -306,23 +352,9 @@ TEST(BinarySearchTrees,Includes){
 }
 TEST(BinarySearchTrees,removal){
     BinarySearchTree<int> sum;
-    sum.insert(25);
-    sum.insert(15);
-    sum.insert(50);
-    sum.insert(70);
-    sum.insert(35);
-    sum.insert(31);
-    sum.insert(44);
-    sum.insert(66);
-    sum.insert(90);
     sum.insert(10);
-    sum.insert(22);
-    sum.insert(18);
-    sum.insert(24);
-    sum.insert(4);
-    sum.insert(12);
     sum.remove(10);
-    ASSERT_EQ(sum.includes(10),false);
+    ASSERT_EQ(sum.inOrder(),vector<int> ({}));
 }
 //int main
 
