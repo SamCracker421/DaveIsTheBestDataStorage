@@ -43,7 +43,11 @@ Vec2d operator+(Vec2d p1, Vec2d p2)
 {
     return Vec2d {p1.x + p2.x, p1.y + p2.y };
 }
-
+string Vec2d::print(){
+    string c;
+    c="{"+to_string(this->x) + "," +to_string(this->y)+"}";
+    return c;
+}
 Vec2d operator*(Vec2d v, double s)
 {
     return Vec2d { v.x * s, v.y * s };

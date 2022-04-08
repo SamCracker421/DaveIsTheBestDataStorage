@@ -19,6 +19,7 @@ public:
     constexpr Vec2d(TX xvalue, TY yvalue) : x{static_cast<double>(xvalue)}, y{static_cast<double>(yvalue)} {}
 
     // methods
+    std::string print();
     double magnitude() const;
     constexpr double magSquared() const { return x*x+y*y; }
 
