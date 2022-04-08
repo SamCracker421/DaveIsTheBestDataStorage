@@ -1527,8 +1527,8 @@ void Graphics::polygon(std::vector<Vec2d> points, Color border, Color fill)
     for (size_t i = 1; i < points.size(); i++) {
         nvgLineTo(vg, points[i].x, points[i].y);
     }
+    nvgClosePath(vg);
     if (fill.a > 0) {
-        nvgClosePath(vg);
         if (fill.a > 0) {
             nvgFillColor(vg, nvgRGBA(fill.r, fill.g, fill.b, fill.a));
             nvgFill(vg);

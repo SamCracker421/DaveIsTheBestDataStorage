@@ -24,17 +24,14 @@ using namespace mssm;
 //void   polygon(std::vector<Vec2d> pts, Color border, Color fill = TRANSPARENT);
 //void   polyline(std::vector<Vec2d> pts, Color color);
 //void   text(Vec2d pos, double size, const std::string& str, Color textColor = WHITE, HAlign hAlign = HAlign::left, VAlign vAlign = VAlign::baseline);
-bool onedirection(Vec2d point, vector<Vec2d>& points){
+bool onedirection(Vec2d point, vector<Vec2d> points){
+    if(points.size()>0){
+    points.push_back(points[0]);
+    }
 double line=point.x;
 int intersections=0;
 int hitvertice=0;
-if(points.size()>3){
-double lowestyval=points[0].y;
-for(int x=0;x<points.size();x++){
-    if(lowestyval>points[x].y){
-        lowestyval=points[x].y;
-    }
-}
+if(points.size()>2){
 for(int x=0;x<points.size()-1;x++){
     if(points[x].x-points[x+1].x==0){
     if(point.x==points[x].x){
@@ -105,7 +102,7 @@ int main()
                 polygons.push_back(g.mousePos());
                 break;
             case EvtType::KeyPress:
-                if(e.arg == ' '){
+                if(e.arg==' '){
                     polygons.push_back(polygons[0]);
                 }
             default:
