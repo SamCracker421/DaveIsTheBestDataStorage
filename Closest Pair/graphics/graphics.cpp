@@ -785,25 +785,25 @@ Graphics::Graphics(std::string title, int width, int height,
     //    if (loadDemoData2(vg, &data) == -1)
     //        return -1;
 
-//    glfwSwapInterval(1); // supportTear ? -1 : 1);
+    glfwSwapInterval(1); // supportTear ? -1 : 1);
 
-//#ifdef _WIN32
-//    // Turn on vertical screen sync under Windows.
-//    // (I.e. it uses the WGL_EXT_swap_control extension)
-//    typedef BOOL (WINAPI *PFNWGLSWAPINTERVALEXTPROC)(int interval);
-//    PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
-//#ifndef _MSC_VER
-//#pragma GCC diagnostic push
-//#pragma GCC diagnostic ignored "-Wcast-function-type"
-//#endif
-//    wglSwapIntervalEXT = reinterpret_cast<PFNWGLSWAPINTERVALEXTPROC>(wglGetProcAddress("wglSwapIntervalEXT"));
-//#ifndef _MSC_VER
-//#pragma GCC diagnostic pop
-//#endif
-//    if(wglSwapIntervalEXT) {
-//        wglSwapIntervalEXT(1);
-//    }
-//#endif
+#ifdef _WIN32
+    // Turn on vertical screen sync under Windows.
+    // (I.e. it uses the WGL_EXT_swap_control extension)
+    typedef BOOL (WINAPI *PFNWGLSWAPINTERVALEXTPROC)(int interval);
+    PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
+#ifndef _MSC_VER
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
+    wglSwapIntervalEXT = reinterpret_cast<PFNWGLSWAPINTERVALEXTPROC>(wglGetProcAddress("wglSwapIntervalEXT"));
+#ifndef _MSC_VER
+#pragma GCC diagnostic pop
+#endif
+    if(wglSwapIntervalEXT) {
+        wglSwapIntervalEXT(1);
+    }
+#endif
 
     //	initGPUTimer(&gpuTimer);
 
