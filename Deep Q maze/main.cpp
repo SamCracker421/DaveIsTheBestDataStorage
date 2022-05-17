@@ -11,13 +11,13 @@ using namespace mssm;
 class robotboi{
 public:
     vector<vector<double>> Qtable;
-    double epsilon=0.3;
+    double epsilon=0.2;
     void createTable();
     void calculateQtable(vector<vector<int>>& potato);
     int state=0;
     int action;
-    double gamma=0.85;
-    double learningrate=0.1;
+    double gamma=0.90;
+    double learningrate=0.01;
     void paction(vector<vector<int>>& potato);
     int getreward(vector<vector<int>> potato);
     void MoveLeft(vector<vector<int>>& CurrentState);
